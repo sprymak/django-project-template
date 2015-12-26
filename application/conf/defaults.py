@@ -99,8 +99,10 @@ INSTALLED_APPS = (
     'django_filters',
     'gunicorn',
     'oauth2_provider',
+    'corsheaders',
+    'rest_framework',
+    'rest_framework_swagger',
     # 'registration',
-    # 'rest_framework',
     # 'taggit',
     # 'taggit_templatetags',
     # 'guardian',
@@ -175,6 +177,34 @@ LANGUAGE_COOKIE_NAME = 'hl'
 LOCALE_PATHS = (
     os.path.join(APPLICATION_PATH, 'locale'),
 )
+
+# API
+# http://www.django-rest-framework.org/api-guide/settings/
+# https://github.com/ottoyiu/django-cors-headers/
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+
+    'DEFAULT_PARSER_CLASSES': (
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
+    ),
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
+    'DEFAULT_VERSION': '1',
+    'URL_FIELD_NAME': 'self',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
 
 import djcelery
 djcelery.setup_loader()

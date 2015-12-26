@@ -9,7 +9,7 @@ django-debug-toolbar
 django-filter
 django-guardian
 #django-ipware
-#django-oauth-toolkit
+django-oauth-toolkit
 #django-passwords
 django-redis-cache
 django-registration-redux
@@ -17,6 +17,8 @@ django-registration-redux
 #django-taggit-templatetags
 django-template-debug
 djangorestframework
+djangorestframework-camel-case
+django-rest-swagger
 easy-thumbnails
 gunicorn
 setproctitle
