@@ -11,5 +11,3 @@ TEST_APPS = (
     'django_coverage',
 )
 INSTALLED_APPS = INSTALLED_APPS + TEST_APPS
-
-DATABASES['default'].update(NAME=':memory:')
