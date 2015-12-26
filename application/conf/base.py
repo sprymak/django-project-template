@@ -24,7 +24,7 @@ def get_env_var(setting, default=None):
         raise ImproperlyConfigured(error_msg)
 
 
-_server_software = os.environ.get('SERVER_SOFTWARE', '')
+_server_software = get_env_var('SERVER_SOFTWARE', '')
 IS_DEV = (
     (map(os.path.basename, sys.argv[:2]) == ['manage.py', 'runserver']) or
     _server_software.startswith('Dev') or
@@ -44,4 +44,4 @@ LOG_FILENAME = '.'.join([PROJECT_NAME, 'log'])
 
 PYTHON_EGG_CACHE = os.path.join(CACHE_PATH, 'eggs')
 
-HAS_CELERY = False
+CELERY_ENABLED = False

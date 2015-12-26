@@ -1,20 +1,20 @@
+from __future__ import absolute_import, unicode_literals
 import os
+import site
 import sys
 from django.utils.translation import ugettext_lazy as _
 from .base import *
 
 DEBUG = IS_DEV
-TEMPLATE_DEBUG = DEBUG
+ASSETS_DEBUG = DEBUG
 
-if LIB_PATH not in sys.path:
-    sys.path.insert(1, LIB_PATH)
-if APPS_PATH not in sys.path:
-    sys.path.insert(1, APPS_PATH)
-if APPLICATION_PATH not in sys.path:
-    sys.path.insert(1, APPLICATION_PATH)
+sys.path.insert(1, LIB_PATH)
+sys.path.insert(1, APPS_PATH)
+sys.path.insert(1, APPLICATION_PATH)
+site.removeduppaths()
 
 FILE_UPLOAD_TEMP_DIR = os.path.join(BASE_DIR, 'var', 'tmp')
-FILE_UPLOAD_PERMISSIONS = 0644
+FILE_UPLOAD_PERMISSIONS = 0o644
 SESSION_FILE_PATH = os.path.join(BASE_DIR, 'var', 'tmp')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'var/lib/uploads/')
 
@@ -23,21 +23,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'var/lib/uploads/')
 #     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 EMAIL_HOST = 'localhost'
-DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'dev@metacorus.com'
+DEFAULT_FROM_EMAIL = SERVER_EMAIL = '%s+dev@metacorus.com' % PROJECT_NAME
 if IS_DEV:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ADMINS = (
-    ('Developers', 'dev@metacorus.com'),
+    ('Developers', '%s+dev@metacorus.com' % PROJECT_NAME),
 )
 MANAGERS = ADMINS
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
-
-#ASSETS_DEBUG = DEBUG
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -45,26 +43,32 @@ STATICFILES_FINDERS = (
     'django_assets.finders.AssetsFinder',
 )
 
-TEMPLATE_DIRS = (
-    os.path.join(APPLICATION_PATH, 'templates'),
-)
-
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.csrf',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.static',
-    'django.core.context_processors.request',
-    'django.core.context_processors.media',
-    'django.core.context_processors.debug',
+# https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-TEMPLATES
+TEMPLATES = (
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(APPLICATION_PATH, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': (
+                'django.contrib.auth.context_processors.auth',
+                'django.core.context_processors.i18n',
+                'django.core.context_processors.csrf',
+                'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.static',
+                'django.core.context_processors.request',
+                'django.core.context_processors.media',
+                'django.core.context_processors.debug',
+            ),
+            'debug': DEBUG,
+        }
+    },
 )
 
 SECRET_KEY = '{{ secret_key }}'
 ALLOWED_HOSTS = []
-# AUTH_PROFILE_MODULE = "{{ project_name }}.UserProfile"
 
+# ACCOUNT_INVITATION_DAYS = 7
 AUTH_USER_MODEL = '{{ project_name }}.User'
 ANONYMOUS_USER_ID = -1
 LOGIN_URL = '/auth/login'
@@ -74,18 +78,17 @@ LOGIN_REDIRECT_URL = '/'
 # from django.contrib import auth
 # auth.REDIRECT_FIELD_NAME = 'continue'
 
-CSRF_COOKIE_NAME = 'token'
-SESSION_COOKIE_NAME = 'sid'
-SESSION_ENGINE = 'django.contrib.sessions.backends.file'
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
-
-ACCOUNT_INVITATION_DAYS = 7
-
 AUTHENTICATION_BACKENDS = (
     # 'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
     'oauth2_provider.backends.OAuth2Backend',
 )
+
+CSRF_COOKIE_NAME = 'token'
+SESSION_COOKIE_NAME = 'sid'
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -155,8 +158,9 @@ CACHES = {
         'TIMEOUT': CACHE_TIMEOUT,
     }
 }
-
-
+CACHE_MIDDLEWARE_KEY_PREFIX = PROJECT_NAME
+# This is where django_assets will store its artifacts.
+# https://goo.gl/W3P5GB#django_assets.settings.ASSETS_CACHE
 ASSETS_CACHE = os.path.join(CACHE_PATH, 'webassets')
 
 # Internationalization
