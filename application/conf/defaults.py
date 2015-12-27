@@ -183,6 +183,8 @@ LOCALE_PATHS = (
     os.path.join(APPLICATION_PATH, 'locale'),
 )
 
+{{ project_name|upper }}_ITEMS_PER_PAGE =  25
+
 # API
 # http://www.django-rest-framework.org/api-guide/settings/
 # https://github.com/ottoyiu/django-cors-headers/
@@ -207,12 +209,13 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSION': '1',
     'URL_FIELD_NAME': 'self',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
+    'PAGE_SIZE': {{ project_name|upper }}_ITEMS_PER_PAGE,
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
 
-import djcelery
-djcelery.setup_loader()
+if CELERY_ENABLED:
+    import djcelery
+    djcelery.setup_loader()
 
 
 # A sample logging configuration. The only tangible logging
