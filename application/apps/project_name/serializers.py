@@ -47,6 +47,20 @@ class CategorySerializer(BaseResourceModelSerializer):
         fields = ('id', 'display_name', URL_FIELD_NAME)
 
 
+class PublishArticleSerializer(serializers.Serializer):
+    article = serializers.HyperlinkedRelatedField(
+            'article-detail', lookup_field='uid',
+            queryset=models.Article.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        request = kwargs.pop('request', None)
+        if request is not None:
+            context = kwargs.pop('context', {})
+            context['request'] = request
+            kwargs['context'] = context
+        super(PublishArticleSerializer, self).__init__(*args, **kwargs)
+
+
 class UserSerializer(BaseResourceModelSerializer):
     full_name = serializers.CharField(source='get_full_name', read_only=True)
 

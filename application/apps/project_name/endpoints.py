@@ -1,21 +1,15 @@
 """This is where the Web API endpoints, such as REST or RPC, are defined. """
 import logging
-from django.conf import settings
-
-from django.db import transaction
 from django.utils import six
-from django.utils.translation import ugettext_lazy as _
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.generics import get_object_or_404
-from rest_framework.mixins import CreateModelMixin, \
-    DestroyModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 from rest_framework.routers import DynamicDetailRoute, \
     DynamicListRoute, Route, SimpleRouter
-from rest_framework.views import APIView
 
 from . import base
 from . import models
@@ -36,6 +30,8 @@ def IsOwner(field_name):
             if isinstance(owner, six.integer_types):
                 user = user.pk
             return owner is not None and owner == user
+
+
     return Permission
 
 
@@ -113,6 +109,22 @@ class BaseViewSet(viewsets.GenericViewSet):
         return Response(serializer.data)
 
 
+class ActionViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @list_route(methods=['POST'])
+    def publish(self, request):
+        kwargs = dict(data=request.data, request=request)
+        serializer = serializers.PublishArticleSerializer(**kwargs)
+        serializer.is_valid(raise_exception=True)
+        article = serializer.validated_data['article']
+
+        if article.author != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        base.publish_article(article)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class ArticleViewSet(RetrieveModelMixin, ListModelMixin, BaseViewSet):
     permission_classes = [IsOwner('author')]
     queryset = models.Article.objects.none()
@@ -162,6 +174,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, BaseViewSet):
 
 
 router = Router(trailing_slash=False)
+router.register(r'actions', ActionViewSet, base_name='action')
 router.register(r'articles', ArticleViewSet)
 router.register(r'categories', CategoryViewSet)
 router.register(r'users', UserViewSet)

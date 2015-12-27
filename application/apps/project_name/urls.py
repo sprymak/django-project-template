@@ -5,7 +5,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^api/', include(endpoints.router.urls, namespace='{{ project_name }}-api')),
+    url(r'^api/', include(endpoints.router.urls),
     url(r'^$', views.article_list, name='{{ project_name }}-article-list'),
     url(r'^add$', views.add_article, name='{{ project_name }}-article-add'),
     url(r'^(?P<slug>[\w-]+)$', views.article_detail,

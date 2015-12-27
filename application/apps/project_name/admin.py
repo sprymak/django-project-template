@@ -6,8 +6,15 @@ from . import models
 
 class ArticleAdmin(admin.ModelAdmin):
    list_display = (
-        'title', 'is_private', 'date_created', 'date_updated', 'pk')
+        'title', 'is_private', 'date_created', 'date_updated', 'uid', 'pk')
+   readonly_fields = ('uid', 'date_created', 'date_updated')
    search_fields = 'title',
+
+
+class CategoryAdmin(admin.ModelAdmin):
+   list_display = (
+        'display_name', 'date_created', 'date_updated', 'uid', 'pk')
+   search_fields = 'display_name',
 
 
 class UserAdmin(django.contrib.auth.admin.UserAdmin):
@@ -45,4 +52,5 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
 
 
 admin.site.register(models.Article, ArticleAdmin)
+admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.User, UserAdmin)
