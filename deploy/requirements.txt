@@ -17,6 +17,7 @@ django-registration-redux
 django-taggit
 django-taggit-templatetags
 django-template-debug
+django-timezone-field
 djangorestframework
 djangorestframework-camel-case
 django-rest-swagger

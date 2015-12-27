@@ -7,6 +7,7 @@ from django.views.generic import RedirectView
 admin.autodiscover()
 
 urlpatterns = [
+    url(r'^', include('{{ project_name }}.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^swagger/', include('rest_framework_swagger.urls')),

@@ -109,6 +109,7 @@ INSTALLED_APPS = (
     # 'taggit',
     # 'taggit_templatetags',
     # 'guardian',
+    '{{ project_name }}',
 )
 
 if IS_DEV:
