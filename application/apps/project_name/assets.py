@@ -16,7 +16,7 @@ register('{{ project_name }}_js', Bundle(
         filters='coffeescript,jsmin',
     ),
     Bundle(
-        "{{ project_name }}/scripts/{{ project_name }}.js",
+        "{{ project_name }}/scripts/jquery.{{ project_name }}.js",
         filters='jsmin'
     ),
     output='_/{{ project_name }}.js'
