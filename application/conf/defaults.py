@@ -89,6 +89,7 @@ AUTHENTICATION_BACKENDS = (
     'oauth2_provider.backends.OAuth2Backend',
 )
 
+# https://docs.djangoproject.com/en/1.8/ref/settings/#session-engine
 CSRF_COOKIE_NAME = 'token'
 SESSION_COOKIE_NAME = 'sid'
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
@@ -142,7 +143,7 @@ APPEND_SLASH = False
 WSGI_APPLICATION = 'wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -170,7 +171,7 @@ CACHE_MIDDLEWARE_KEY_PREFIX = PROJECT_NAME
 ASSETS_CACHE = os.path.join(CACHE_PATH, 'webassets')
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
+# https://docs.djangoproject.com/en/1.8/topics/i18n/
 LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
 USE_I18N = True
