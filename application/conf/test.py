@@ -2,6 +2,7 @@ import os
 from .defaults import *
 
 #TEST_RUNNER = 'discover_runner.DiscoverRunner'
+TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 TEST_DISCOVER_TOP_LEVEL = APPLICATION_PATH
 TEST_DISCOVER_ROOT = APPLICATION_PATH
 TEST_DISCOVER_PATTERN = 'test_*.py'
