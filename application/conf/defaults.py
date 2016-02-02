@@ -69,6 +69,10 @@ TEMPLATES = (
 SECRET_KEY = '{{ secret_key }}'
 ALLOWED_HOSTS = []
 
+# https://docs.djangoproject.com/en/1.8/ref/settings/#secure-proxy-ssl-header
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+
+# Authentication
 # ACCOUNT_INVITATION_DAYS = 7
 AUTH_USER_MODEL = '{{ project_name }}.User'
 ANONYMOUS_USER_ID = -1
