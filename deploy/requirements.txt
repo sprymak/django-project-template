@@ -21,7 +21,7 @@ django-timezone-field
 djangorestframework
 djangorestframework-camel-case
 django-rest-swagger
--e git+https://github.com/sprymak/django-whatever.git@2afc81ba29f0e59ae6296b5e9f32e4254c6a7dd5#egg=django_whatever-master
+-e git+https://github.com/sprymak/django-whatever.git@3bab1b847f58ecd7f5d77b1914006e929e6252f0#egg=django_whatever-master
 easy-thumbnails
 gunicorn
 metacorus-django-utils
