@@ -3,9 +3,10 @@ import os
 import site
 import sys
 from django.utils.translation import ugettext_lazy as _
-from .base import *
+from .base import *  # noqa
 
-DEBUG = IS_DEV
+# Enable DEBUG only if running on the developer's computer.
+DEBUG = IS_DEV or bool(get_env_var('DEBUG', ''))
 ASSETS_DEBUG = DEBUG
 
 sys.path.insert(1, LIB_PATH)

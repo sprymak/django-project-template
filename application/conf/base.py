@@ -25,7 +25,7 @@ def get_env_var(setting, default=None):
 
 
 _server_software = get_env_var('SERVER_SOFTWARE', '')
-IS_DEV = (
+IS_DEV = bool(get_env_var('DEVELOPER', '')) or (
     (map(os.path.basename, sys.argv[:2]) == ['manage.py', 'runserver']) or
     _server_software.startswith('Dev') or
     _server_software.startswith('WSGIServer'))
