@@ -210,9 +210,14 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser'
     ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+        'tumaker.search.OrderingFilter',
+    ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     'DEFAULT_VERSION': '1',
     'URL_FIELD_NAME': 'self',
+    'ORDERING_PARAM': 'sort',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': {{ project_name|upper }}_ITEMS_PER_PAGE,
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
