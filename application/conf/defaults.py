@@ -16,7 +16,7 @@ site.removeduppaths()
 FILE_UPLOAD_TEMP_DIR = os.path.join(BASE_DIR, 'var', 'tmp')
 FILE_UPLOAD_PERMISSIONS = 0o644
 SESSION_FILE_PATH = os.path.join(BASE_DIR, 'var', 'tmp')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'var/lib/uploads/')
+MEDIA_ROOT = os.path.join(DATA_PATH, 'lib/uploads/')
 
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 # if not IS_DEV:

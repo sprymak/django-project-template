@@ -4,8 +4,8 @@ import sys
 PROJECT_NAME = '{{ project_name }}'
 
 __all__ = (
-    'PROJECT_NAME', 'IS_DEV', 'IS_TEST', 'APPLICATION_PATH', 'BASE_DIR',
-    'APPS_PATH', 'LIB_PATH', 'CACHE_PATH', 'LOG_PATH', 'LOG_FILENAME',
+    'APPLICATION_PATH', 'APPS_PATH', 'BASE_DIR', 'CACHE_PATH', 'DATA_PATH',
+    'IS_DEV', 'IS_TEST', 'LIB_PATH', 'LOG_FILENAME', 'LOG_PATH', 'PROJECT_NAME',
     'PYTHON_EGG_CACHE', 'get_env_var',
 )
 
@@ -37,8 +37,15 @@ APPLICATION_PATH = os.path.dirname(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(APPLICATION_PATH)
 APPS_PATH = os.path.join(APPLICATION_PATH, 'apps')
 LIB_PATH = os.path.join(APPLICATION_PATH, 'lib')
-CACHE_PATH = os.path.join(BASE_DIR, 'var', 'cache')
-LOG_PATH = os.path.join(BASE_DIR, 'var', 'log')
+
+# Data directory contains variable data files. This includes spool directories
+# and files, administrative and logging data, and transient and temporary files.
+# Data directory is specified here in order to make it possible to place the
+# application to a read-only environment.
+DATA_PATH = get_env_var('DATA_PATH', os.path.join(APPLICATION_PATH, 'var'))
+CACHE_PATH = os.path.join(DATA_PATH, 'cache')
+LOG_PATH = os.path.join(DATA_PATH, 'log')
+TEMP_PATH = os.path.join(DATA_PATH, 'tmp')
 
 LOG_FILENAME = '.'.join([PROJECT_NAME, 'log'])
 
