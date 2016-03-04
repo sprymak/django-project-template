@@ -3,12 +3,6 @@ import sys
 
 PROJECT_NAME = '{{ project_name }}'
 
-__all__ = (
-    'APPLICATION_PATH', 'APPS_PATH', 'BASE_DIR', 'CACHE_PATH', 'DATA_PATH',
-    'IS_DEV', 'IS_TEST', 'LIB_PATH', 'LOG_FILENAME', 'LOG_PATH', 'PROJECT_NAME',
-    'PYTHON_EGG_CACHE', 'get_env_var',
-)
-
 
 def get_env_var(setting, default=None):
     try:

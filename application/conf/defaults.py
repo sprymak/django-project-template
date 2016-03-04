@@ -213,7 +213,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
-        'tumaker.search.OrderingFilter',
+        '{{ project_name|lower }}.search.OrderingFilter',
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     'DEFAULT_VERSION': '1',
